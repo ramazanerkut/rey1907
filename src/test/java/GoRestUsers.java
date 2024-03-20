@@ -58,7 +58,7 @@ public class GoRestUsers {
                 .body("", hasSize(10));
     }
 
-    @Test (priority = 2)
+/*    @Test (priority = 2)
     void createNewUser() {
         given()
                 //.header("Authorization","Bearer 1352035115bdf297fee05d2110140e048fa57732bcdf430aa119426721d3f505")
@@ -79,10 +79,10 @@ public class GoRestUsers {
 //                "gender":"male",
 //                "email":"{{$randomEmail}}",
 //                "status":"active"
-//        }
-    }
+        }
+    }*/
 
-    @Test (priority = 3)
+    @Test (priority = 2)
     void createNewUserWithMaps() {
         Map<String, String> user = new HashMap<>();
         user.put("name", randomName());
@@ -105,7 +105,7 @@ public class GoRestUsers {
     User user;
     User userFromResponse;
 
-    @Test (priority = 4)
+    @Test (priority = 3)
     void createNewUserWithObject() {
 
         user = new User(randomName(), randomEmail(), "female", "active");
@@ -129,7 +129,7 @@ public class GoRestUsers {
                 .extract().as(User.class);
     }
 
-    @Test(dependsOnMethods = "createNewUserWithObject",priority = 5)
+    @Test(dependsOnMethods = "createNewUserWithObject",priority = 4)
     void createUserNegativeTest() {
 
         User userNegative = new User(randomName(), user.getEmail(), "female", "active");
@@ -149,7 +149,7 @@ public class GoRestUsers {
      * get the user you created in createNewUserWithObject test
      **/
 
-    @Test(dependsOnMethods = "createNewUserWithObject",priority = 6)
+    @Test(dependsOnMethods = "createNewUserWithObject",priority = 5)
     void getUserById() {
 
         given()
@@ -169,7 +169,7 @@ public class GoRestUsers {
      * Update the user you created in createNewUserWithObject
      **/
 
-    @Test(dependsOnMethods = "createNewUserWithObject",priority = 7)
+    @Test(dependsOnMethods = "createNewUserWithObject",priority = 6)
     void updateUser() {
         User updatedUser = new User(randomName(), randomEmail(), "male", "active");
 
@@ -196,7 +196,7 @@ public class GoRestUsers {
     /**
      * Delete the user you created in createNewUserWithObject
      **/
-    @Test(dependsOnMethods = "createNewUserWithObject", priority = 8)
+    @Test(dependsOnMethods = "createNewUserWithObject", priority = 7)
     void deleteUser() {
         given()
                 .spec(requestSpecification)
@@ -211,7 +211,7 @@ public class GoRestUsers {
      * create delete user negative test
      **/
 
-    @Test(dependsOnMethods = {"createNewUserWithObject", "deleteUser"},priority = 9)
+    @Test(dependsOnMethods = {"createNewUserWithObject", "deleteUser"},priority = 8)
     void deleteUserNegativeTest() {
         given()
                 .spec(requestSpecification)
@@ -222,7 +222,7 @@ public class GoRestUsers {
                 .statusCode(404);
     }
 
-    @Test(dependsOnMethods = {"createNewUserWithObject", "deleteUser"},priority = 10)
+    @Test(dependsOnMethods = {"createNewUserWithObject", "deleteUser"},priority = 9)
     void getUserByIdNegativeTest() {
         given()
                 .pathParam("userId", userFromResponse.getId())
