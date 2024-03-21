@@ -2,6 +2,7 @@ package utilities;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -25,6 +26,9 @@ public class DriverClass {
         if (threadDriver.get() == null) {
             switch (threadBrowserName.get()) {
                 case "chrome":
+                    ChromeOptions options = new ChromeOptions();
+                    if (!runningOnIntelliJ())
+                        options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu", "--window-size=1400,2400");
                     threadDriver.set(new ChromeDriver());
                     break;
                 case "firefox":
@@ -57,5 +61,10 @@ public class DriverClass {
             threadDriver.get().quit();
             threadDriver.set(null);
         }
+    }
+    public static boolean runningOnIntelliJ(){ // checks if the test is being run by intellij
+        String classpath = System.getProperty("java.class.path");
+        return classpath.contains("idea_rt.jar");
+
     }
 }
